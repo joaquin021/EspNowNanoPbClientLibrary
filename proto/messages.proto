@@ -34,7 +34,7 @@ message request {
 
 message response {
     enum Result {
-        OK = 0; //sed, ping or crecevie ok
+        OK = 0; //send, ping or recevie ok
         NO_MSG = 1; //no message on queue
         NOK = 5; // error
         NOMQTT = 7; //no mqtt error

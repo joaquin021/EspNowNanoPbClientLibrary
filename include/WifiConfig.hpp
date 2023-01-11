@@ -2,6 +2,11 @@
 #define __WIFI_CONFIG_HPP
 
 #include <Arduino.h>
+#ifdef ESP32
+#include <WiFi.h>
+#else
+#include <ESP8266WiFi.h>
+#endif
 
 class WiFiConfig {
    private:

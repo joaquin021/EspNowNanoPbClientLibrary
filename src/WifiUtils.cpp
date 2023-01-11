@@ -16,6 +16,6 @@ void connectToWiFi(WiFiConfig wifiConfig) {
 }
 
 void setupWiFiForEspNow() {
-    WiFi.mode(WIFI_MODE_STA);
+    WiFi.mode(WIFI_STA);
     debugln("Mac: " + WiFi.macAddress());
 }
