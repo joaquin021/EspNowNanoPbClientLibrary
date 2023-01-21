@@ -48,18 +48,22 @@ bool ResponseUtils::deserialize(response *deserializedResponse, const uint8_t *i
 }
 
 void ResponseUtils::printResponseData(response *deserializedResponse) {
+#ifdef PRINT_REQUEST_RESPONSE_FLAG
     debug("Operations: ");
     debugln(deserializedResponse->opResponses_count);
     debug("MessageType: ");
     debugln(deserializedResponse->message_type);
+#endif
 }
 
 void ResponseUtils::printOpResponse(response_OpResponse *opResponse, int operationNumber) {
+#ifdef PRINT_REQUEST_RESPONSE_FLAG
     debugln("> Operation " + String(operationNumber));
     debug(">>> Result Code: ");
     debugln(opResponse->result_code);
     debug(">>> Payload: ");
     debugln(opResponse->payload);
+#endif
 }
 
 void responseHandlerDummy(response *deserializedResponse, const uint8_t *serializedResponse, int len) {}

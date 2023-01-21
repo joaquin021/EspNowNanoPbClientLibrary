@@ -96,15 +96,18 @@ bool RequestUtils::deserialize(request *deserializedRequest, const uint8_t *inco
 }
 
 void RequestUtils::printRequestData(request *request) {
+#ifdef PRINT_REQUEST_RESPONSE_FLAG
     debug("Client: ");
     debugln(request->client_id);
     debug("Operations: ");
     debugln(request->operations_count);
     debug("MessageType: ");
     debugln(request->message_type);
+#endif
 }
 
 void RequestUtils::printSendOperation(request_Send *send) {
+#ifdef PRINT_REQUEST_RESPONSE_FLAG
     debugln("> Send operation");
     debug(">>> Queue: ");
     debugln(send->queue);
@@ -112,25 +115,32 @@ void RequestUtils::printSendOperation(request_Send *send) {
     debugln(send->payload);
     debug(">>> Persist: ");
     debugln(send->persist);
+#endif
 }
 
 void RequestUtils::printSubscribeOperation(request_Subscribe *subscribe) {
+#ifdef PRINT_REQUEST_RESPONSE_FLAG
     debugln("> Subscribe operation");
     debug(">>> Queue: ");
     debugln(subscribe->queue);
     debug(">>> Clear: ");
     debugln(subscribe->clear);
+#endif
 }
 
 void RequestUtils::printPingOperation(request_Ping *ping) {
+#ifdef PRINT_REQUEST_RESPONSE_FLAG
     debugln("> Ping operation");
     debug(">>> Num: ");
     debugln(ping->num);
+#endif
 }
 
 void RequestUtils::printUnknownOperation(pb_size_t which_op) {
+#ifdef PRINT_REQUEST_RESPONSE_FLAG
     debug("> Unknown: ");
     debugln(which_op);
+#endif
 }
 
 void requestHandlerDummy(request *deserializedRequest, const uint8_t *serializedRequest, int len, response *response) {}
