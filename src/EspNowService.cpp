@@ -17,6 +17,7 @@ void EspNowService::pair(const uint8_t *mac) {
     bool existPeer = esp_now_is_peer_exist(mac);
     if (!existPeer) {
         esp_now_peer_info_t peerInfo;
+        memset(&peerInfo, 0, sizeof(peerInfo));
         memcpy(peerInfo.peer_addr, mac, 6);
         peerInfo.channel = 0;
         peerInfo.encrypt = false;
