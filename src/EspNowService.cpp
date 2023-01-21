@@ -2,7 +2,7 @@
 
 void EspNowService::setup(esp_now_send_cb_t esp_now_send_cb, esp_now_recv_cb_t esp_now_recv_cb) {
     if (esp_now_init() != 0) {
-        debugln("There was an error initializing ESP-NOW");
+        logErrorln("There was an error initializing ESP-NOW");
         return;
     }
     esp_now_register_send_cb(esp_now_send_cb);
@@ -21,7 +21,7 @@ void EspNowService::pair(const uint8_t *mac) {
         peerInfo.channel = 0;
         peerInfo.encrypt = false;
         if (esp_now_add_peer(&peerInfo) != 0) {
-            debugln("Failed to add peer");
+            logErrorln("Failed to add peer");
         }
     }
 }
@@ -34,7 +34,7 @@ void EspNowService::pair(u8 *mac) {
     if (!existPeer) {
         esp_now_set_self_role(ESP_NOW_ROLE_COMBO);
         if (esp_now_add_peer(mac, ESP_NOW_ROLE_COMBO, 0, NULL, 0) != 0) {
-            debugln("Failed to add peer");
+            logErrorln("Failed to add peer");
         }
     }
 }
@@ -48,8 +48,28 @@ void EspNowService::send(u8 *mac, u8 *outputData, int len) {
     pair(mac);
     int result = esp_now_send(mac, outputData, len);
     if (result == 0) {
-        debugln("The message was sent sucessfully via ESP-NOW.");
+        logTraceln("The message was sent sucessfully via ESP-NOW.");
     } else {
-        debugln("There was an error sending via ESP-NOW the response.");
+        logErrorln("There was an error sending via ESP-NOW.");
     }
+}
+
+#ifdef ESP32
+void EspNowService::sendRequest(const uint8_t *mac, request *request) {
+#else
+void EspNowService::sendRequest(u8 *mac, request *request) {
+#endif
+    uint8_t serializedBuffer[ESPNOW_BUFFERSIZE];
+    int serializedLen = RequestUtils::getInstance().serialize(serializedBuffer, request);
+    send(mac, serializedBuffer, serializedLen);
+}
+
+#ifdef ESP32
+void EspNowService::sendResponse(const uint8_t *mac, response *response) {
+#else
+void EspNowService::sendResponse(u8 *mac, response *response) {
+#endif
+    uint8_t serializedBuffer[ESPNOW_BUFFERSIZE];
+    int serializedLen = ResponseUtils::getInstance().serialize(serializedBuffer, response);
+    send(mac, serializedBuffer, serializedLen);
 }

@@ -8,7 +8,7 @@ void ResponseUtils::manage(const uint8_t *incomingData, int len, response_handle
         manage(&deserializedResponse, op_responser_handler);
         response_handler(&deserializedResponse, incomingData, len);
     } else {
-        debugln("Error deserializing response.");
+        logErrorln("Error deserializing response.");
     }
 }
 
@@ -48,22 +48,18 @@ bool ResponseUtils::deserialize(response *deserializedResponse, const uint8_t *i
 }
 
 void ResponseUtils::printResponseData(response *deserializedResponse) {
-#ifdef PRINT_REQUEST_RESPONSE_FLAG
-    debug("Operations: ");
-    debugln(deserializedResponse->opResponses_count);
-    debug("MessageType: ");
-    debugln(deserializedResponse->message_type);
-#endif
+    logTrace("Operations: ");
+    logTraceln(deserializedResponse->opResponses_count);
+    logTrace("MessageType: ");
+    logTraceln(deserializedResponse->message_type);
 }
 
 void ResponseUtils::printOpResponse(response_OpResponse *opResponse, int operationNumber) {
-#ifdef PRINT_REQUEST_RESPONSE_FLAG
-    debugln("> Operation " + String(operationNumber));
-    debug(">>> Result Code: ");
-    debugln(opResponse->result_code);
-    debug(">>> Payload: ");
-    debugln(opResponse->payload);
-#endif
+    logTraceln("> Operation " + String(operationNumber));
+    logTrace(">>> Result Code: ");
+    logTraceln(opResponse->result_code);
+    logTrace(">>> Payload: ");
+    logTraceln(opResponse->payload);
 }
 
 void responseHandlerDummy(response *deserializedResponse, const uint8_t *serializedResponse, int len) {}
