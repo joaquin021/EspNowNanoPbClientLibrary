@@ -42,9 +42,9 @@ void EspNowService::pair(u8 *mac) {
 #endif
 
 #ifdef ESP32
-void EspNowService::send(const uint8_t *mac, const uint8_t *outputData, int len) {
+int EspNowService::send(const uint8_t *mac, const uint8_t *outputData, int len) {
 #else
-void EspNowService::send(u8 *mac, u8 *outputData, int len) {
+int EspNowService::send(u8 *mac, u8 *outputData, int len) {
 #endif
     pair(mac);
     int result = esp_now_send(mac, outputData, len);
@@ -53,24 +53,25 @@ void EspNowService::send(u8 *mac, u8 *outputData, int len) {
     } else {
         logErrorln("There was an error sending via ESP-NOW.");
     }
+    return result;
 }
 
 #ifdef ESP32
-void EspNowService::sendRequest(const uint8_t *mac, request *request) {
+int EspNowService::sendRequest(const uint8_t *mac, request *request) {
 #else
-void EspNowService::sendRequest(u8 *mac, request *request) {
+int EspNowService::sendRequest(u8 *mac, request *request) {
 #endif
     uint8_t serializedBuffer[ESPNOW_BUFFERSIZE];
     int serializedLen = RequestUtils::getInstance().serialize(serializedBuffer, request);
-    send(mac, serializedBuffer, serializedLen);
+    return send(mac, serializedBuffer, serializedLen);
 }
 
 #ifdef ESP32
-void EspNowService::sendResponse(const uint8_t *mac, response *response) {
+int EspNowService::sendResponse(const uint8_t *mac, response *response) {
 #else
-void EspNowService::sendResponse(u8 *mac, response *response) {
+int EspNowService::sendResponse(u8 *mac, response *response) {
 #endif
     uint8_t serializedBuffer[ESPNOW_BUFFERSIZE];
     int serializedLen = ResponseUtils::getInstance().serialize(serializedBuffer, response);
-    send(mac, serializedBuffer, serializedLen);
+    return send(mac, serializedBuffer, serializedLen);
 }
