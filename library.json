@@ -1,0 +1,26 @@
+{
+  "name": "EspNowNanoPbClientLibrary",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": "",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/joaquin021/EspNowNanoPbClientLibrary.git"
+  },
+  "authors":
+  [
+    {
+      "name": "Joaquín Roca Soler",
+      "email": "me@joaquinrocasoler.es",
+      "url": "https://joaquinrocasoler.es/contact"
+    }
+  ],
+  "license": "GPL3",
+  "homepage": "",
+   "dependencies": {
+    "nanopb/Nanopb": "^0.4.7"
+  },
+  "frameworks": [ "arduino"],
+  "platforms": ["espressif8266", "espressif32"]
+}
