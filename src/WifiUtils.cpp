@@ -1,7 +1,7 @@
 #include "WifiUtils.hpp"
 
 void connectToWiFi(WiFiConfig wifiConfig) {
-    logDebugln("Trying to connect WiFi.");
+    logDebugln("WifiUtils\t\tTrying to connect WiFi.");
     WiFi.config(wifiConfig.getSaticIp(), wifiConfig.getGateway(), wifiConfig.getSubnet());
     WiFi.begin(wifiConfig.getSsid(), wifiConfig.getPassword());
     while (WiFi.status() != WL_CONNECTED) {
@@ -9,13 +9,13 @@ void connectToWiFi(WiFiConfig wifiConfig) {
         logTrace(".");
     }
     logDebugln("");
-    logInfoln("WiFi connected.");
-    logInfo("IP address: ");
+    logInfoln("WifiUtils\t\tWiFi connected.");
+    logInfo("WifiUtils\t\tIP address: ");
     logInfoln(WiFi.localIP());
-    logInfoln("Mac: " + WiFi.macAddress());
+    logInfoln("WifiUtils\t\tMac: " + WiFi.macAddress());
 }
 
 void setupWiFiForEspNow() {
     WiFi.mode(WIFI_STA);
-    logInfoln("Mac: " + WiFi.macAddress());
+    logInfoln("WifiUtils\t\tMac: " + WiFi.macAddress());
 }

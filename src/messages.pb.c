@@ -18,6 +18,9 @@ PB_BIND(request_Send, request_Send, AUTO)
 PB_BIND(request_Subscribe, request_Subscribe, AUTO)
 
 
+PB_BIND(request_Unsubscribe, request_Unsubscribe, AUTO)
+
+
 PB_BIND(request_Operation, request_Operation, AUTO)
 
 

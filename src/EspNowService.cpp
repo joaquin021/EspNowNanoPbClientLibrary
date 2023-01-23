@@ -2,7 +2,7 @@
 
 void EspNowService::setup(esp_now_send_cb_t esp_now_send_cb, esp_now_recv_cb_t esp_now_recv_cb) {
     if (esp_now_init() != 0) {
-        logErrorln("There was an error initializing ESP-NOW");
+        logErrorln("EspNowService\t\tThere was an error initializing ESP-NOW");
         return;
     }
     esp_now_register_send_cb(esp_now_send_cb);
@@ -22,7 +22,7 @@ void EspNowService::pair(const uint8_t *mac) {
         peerInfo.channel = 0;
         peerInfo.encrypt = false;
         if (esp_now_add_peer(&peerInfo) != 0) {
-            logErrorln("Failed to add peer");
+            logErrorln("EspNowService\t\tFailed to add peer");
         }
     }
 }
@@ -35,7 +35,7 @@ void EspNowService::pair(u8 *mac) {
     if (!existPeer) {
         esp_now_set_self_role(ESP_NOW_ROLE_COMBO);
         if (esp_now_add_peer(mac, ESP_NOW_ROLE_COMBO, 0, NULL, 0) != 0) {
-            logErrorln("Failed to add peer");
+            logErrorln("EspNowService\t\tFailed to add peer");
         }
     }
 }
@@ -49,29 +49,21 @@ int EspNowService::send(u8 *mac, u8 *outputData, int len) {
     pair(mac);
     int result = esp_now_send(mac, outputData, len);
     if (result == 0) {
-        logTraceln("The message was sent sucessfully via ESP-NOW.");
+        logTraceln("EspNowService\t\tThe message was sent sucessfully via ESP-NOW.");
     } else {
-        logErrorln("There was an error sending via ESP-NOW.");
+        logErrorln("EspNowService\t\tThere was an error sending via ESP-NOW.");
     }
     return result;
 }
 
-#ifdef ESP32
-int EspNowService::sendRequest(const uint8_t *mac, request *request) {
-#else
-int EspNowService::sendRequest(u8 *mac, request *request) {
-#endif
+int EspNowService::sendRequest(request *request) {
     uint8_t serializedBuffer[ESPNOW_BUFFERSIZE];
     int serializedLen = RequestUtils::getInstance().serialize(serializedBuffer, request);
-    return send(mac, serializedBuffer, serializedLen);
+    return send(request->to_mac, serializedBuffer, serializedLen);
 }
 
-#ifdef ESP32
-int EspNowService::sendResponse(const uint8_t *mac, response *response) {
-#else
-int EspNowService::sendResponse(u8 *mac, response *response) {
-#endif
+int EspNowService::sendResponse(response *response) {
     uint8_t serializedBuffer[ESPNOW_BUFFERSIZE];
     int serializedLen = ResponseUtils::getInstance().serialize(serializedBuffer, response);
-    return send(mac, serializedBuffer, serializedLen);
+    return send(response->to_mac, serializedBuffer, serializedLen);
 }
