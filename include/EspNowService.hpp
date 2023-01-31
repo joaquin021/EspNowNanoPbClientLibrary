@@ -34,13 +34,11 @@ class EspNowService {
     void setup(esp_now_send_cb_t esp_now_send_cb = espNowSendCallBackDummy, esp_now_recv_cb_t esp_now_recv_cb = espNowRecvCallBackDummy);
 #ifdef ESP32
     int send(const uint8_t *mac, const uint8_t *outputData, int len);
-    int sendRequest(const uint8_t *mac, request *request);
-    int sendResponse(const uint8_t *mac, response *response);
 #else
     int send(u8 *mac, u8 *outputData, int len);
-    int sendRequest(u8 *mac, request *request);
-    int sendResponse(u8 *mac, response *response);
 #endif
+    int sendRequest(request *request);
+    int sendResponse(response *response);
 };
 
 #endif

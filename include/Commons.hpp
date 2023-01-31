@@ -13,7 +13,6 @@
 #define logTracef
 #endif
 
-
 #ifdef DEBUG_LOG_FLAG
 #define logDebug Serial.print
 #define logDebugln Serial.println
@@ -47,5 +46,6 @@
 #define ESPNOW_BUFFERSIZE 200
 
 void printMacAndLenPacket(const uint8_t *mac, int len, const char *logDebugMessage);
+void printFromToMacAndLenPacket(const uint8_t *fromMac, const uint8_t *toMac, int len);
 
 #endif
